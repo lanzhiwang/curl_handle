@@ -1,6 +1,6 @@
 <?php
 
-namespace Curl;
+//namespace Curl;
 
 class ArrayUtil
 {
@@ -14,6 +14,12 @@ class ArrayUtil
      */
     public static function is_array_assoc($array)
     {
+        /*
+         * array_keys — 返回数组中部分的或所有的键名
+         *
+         * array_filter — 用回调函数过滤数组中的单元
+         *
+         */
         return (bool)count(array_filter(array_keys($array), 'is_string'));
     }
 

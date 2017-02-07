@@ -1,7 +1,15 @@
 <?php
 
-namespace Curl;
+//namespace Curl;
 
+/*
+ * ArrayAccess（数组式访问）提供像访问数组一样访问对象的能力的接口。
+ *
+ * The Countable interface 类实现 Countable 可被用于 count() 函数.
+ *
+ * Iterator（迭代器）接口 可在内部迭代自己的外部迭代器或类的接口。
+ *
+ */
 class CaseInsensitiveArray implements \ArrayAccess, \Countable, \Iterator
 {
 
@@ -49,7 +57,7 @@ class CaseInsensitiveArray implements \ArrayAccess, \Countable, \Iterator
     }
 
     /**
-     * Offset Set
+     * Offset Set 设置一个偏移位置的值
      *
      * Set data at a specified Offset.  Converts the offset to lower-case, and
      * stores the Case-Sensitive Offset and the Data at the lower-case indexes
@@ -76,7 +84,7 @@ class CaseInsensitiveArray implements \ArrayAccess, \Countable, \Iterator
     }
 
     /**
-     * Offset Exists
+     * Offset Exists 检查一个偏移位置是否存在
      *
      * Checks if the Offset exists in data storage.  The index is looked up with
      * the lower-case version of the provided offset.
@@ -95,7 +103,7 @@ class CaseInsensitiveArray implements \ArrayAccess, \Countable, \Iterator
     }
 
     /**
-     * Offset Unset
+     * Offset Unset 复位一个偏移位置的值
      *
      * Unsets the specified offset. Converts the provided offset to lowercase,
      * and unsets the Case-Sensitive Key, as well as the stored data.
@@ -116,7 +124,7 @@ class CaseInsensitiveArray implements \ArrayAccess, \Countable, \Iterator
     }
 
     /**
-     * Offset Get
+     * Offset Get 获取一个偏移位置的值
      *
      * Return the stored data at the provided offset. The offset is converted to
      * lowercase and the lookup is done on the Data store directly.
@@ -136,7 +144,7 @@ class CaseInsensitiveArray implements \ArrayAccess, \Countable, \Iterator
     }
 
     /**
-     * Count
+     * Count 统计一个对象的元素个数
      *
      * @see https://secure.php.net/manual/en/countable.count.php
      *
@@ -152,7 +160,7 @@ class CaseInsensitiveArray implements \ArrayAccess, \Countable, \Iterator
     }
 
     /**
-     * Current
+     * Current 返回当前元素
      *
      * @see https://secure.php.net/manual/en/iterator.current.php
      *
@@ -168,7 +176,7 @@ class CaseInsensitiveArray implements \ArrayAccess, \Countable, \Iterator
     }
 
     /**
-     * Next
+     * Next 向前移动到下一个元素
      *
      * @see https://secure.php.net/manual/en/iterator.next.php
      *
@@ -184,7 +192,7 @@ class CaseInsensitiveArray implements \ArrayAccess, \Countable, \Iterator
     }
 
     /**
-     * Key
+     * Key 返回当前元素的键
      *
      * @see https://secure.php.net/manual/en/iterator.key.php
      *
@@ -201,7 +209,7 @@ class CaseInsensitiveArray implements \ArrayAccess, \Countable, \Iterator
     }
 
     /**
-     * Valid
+     * Valid 检查当前位置是否有效
      *
      * @see https://secure.php.net/manual/en/iterator.valid.php
      *
@@ -215,7 +223,7 @@ class CaseInsensitiveArray implements \ArrayAccess, \Countable, \Iterator
     }
 
     /**
-     * Rewind
+     * Rewind 返回到迭代器的第一个元素
      *
      * @see https://secure.php.net/manual/en/iterator.rewind.php
      *
