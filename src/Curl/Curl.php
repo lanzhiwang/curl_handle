@@ -69,14 +69,14 @@ class Curl
     public $curlErrorMessage = null;
 
     /*
-     * $this->httpError = in_array(floor($this->httpStatusCode / 100), array(4, 5));
-     */
-    public $httpError = false;
-
-    /*
      * $this->httpStatusCode = $this->getInfo(CURLINFO_HTTP_CODE);
      */
     public $httpStatusCode = 0;
+
+    /*
+     * $this->httpError = in_array(floor($this->httpStatusCode / 100), array(4, 5));
+     */
+    public $httpError = false;
 
     /*
      * $this->httpErrorMessage = $this->responseHeaders['Status-Line'];
@@ -96,6 +96,8 @@ class Curl
     public $url = null;
 
     /*
+     * curl发送的请求头信息
+     *
      * $this->requestHeaders = $this->parseRequestHeaders($this->getInfo(CURLINFO_HEADER_OUT));
      *
      * $curl->requestHeaders
@@ -103,6 +105,8 @@ class Curl
     public $requestHeaders = null;
 
     /*
+     * 响应头信息的数组表示形式
+     *
      * $this->responseHeaders = $this->parseResponseHeaders($this->rawResponseHeaders);
      *
      * $curl->responseHeaders
@@ -112,11 +116,15 @@ class Curl
     public $responseHeaders = null;
 
     /*
+     * 响应头信息的字符串表示形式,也就是原始表示形式
+     *
      * $this->rawResponseHeaders .= $header;
      */
     public $rawResponseHeaders = '';
 
     /*
+     * 响应的cookie信息
+     *
      * $this->responseCookies = array();
      *
      * $this->responseCookies[$cookie[1]] = trim($cookie[2], " \n\r\t\0\x0B");
@@ -125,6 +133,8 @@ class Curl
     public $responseCookies = array();
 
     /*
+     * 响应信息的数组表示形式
+     *
      * $this->response = $this->parseResponse($this->responseHeaders, $this->rawResponse);
      *
      * $curl->response
@@ -132,6 +142,8 @@ class Curl
     public $response = null;
 
     /*
+     * 响应信息的字符串表示形式,也就是原始响应信息
+     *
      * $this->rawResponse = curl_exec($this->curl);
      */
     public $rawResponse = null;
@@ -177,7 +189,7 @@ class Curl
     private $cookies = array();
 
     /*
-     * 请求头信息
+     * 自定义请求头信息
      * $this->headers = new CaseInsensitiveArray();
      *
      * $curl->setHeader('X-Requested-With', 'XMLHttpRequest');
@@ -191,6 +203,7 @@ class Curl
     private $headers = array();
 
     /*
+     * 设置的curl配置信息
      * $this->setOpt(CURLOPT_USERAGENT, $user_agent);
      * $this->options[$option] = $value;
      */
@@ -396,6 +409,7 @@ class Curl
      */
     public function setDefaultXmlDecoder()
     {
+        //$xml_decoder($response);
         $this->xmlDecoder = function ($response) {
             /*
              * simplexml_load_string — Interprets a string of XML into an object
@@ -422,6 +436,8 @@ class Curl
          * func_get_args — 返回一个包含函数参数列表的数组
          */
         $args = func_get_args();
+
+        //$json_decoder($response);
         $this->jsonDecoder = function ($response) use ($args) {
             /*
              * array_unshift — 在数组开头插入一个或多个单元
@@ -831,6 +847,9 @@ class Curl
             $args[] = $opt;
         }
 
+        /*
+         * curl_getinfo — 获取一个cURL连接资源句柄的信息
+         */
         return call_user_func_array('curl_getinfo', $args);
     }
 
@@ -839,7 +858,25 @@ class Curl
      *
      * @access public
      */
-    //$this->call($this->beforeSendFunction);
+    /*
+     * $this->call($this->beforeSendFunction);
+     * $callback = function ($instance) {}
+     *
+     * $this->call($this->successFunction);
+     * $callback = function ($instance) {}
+     *
+     * $this->call($this->errorFunction);
+     * $callback = function ($instance) {}
+     *
+     * $this->call($this->completeFunction);
+     * $callback = function ($instance) {}
+     *
+     *
+     * $this->call($this->downloadCompleteFunction, $fh);
+     * $callback = function ($instance, $tmpfile) {}
+     *
+     *
+     */
     public function call()
     {
         /*
@@ -1169,6 +1206,18 @@ class Curl
      */
     /*
      * $curl->delete('https://api.example.com/user/', array('id' => '1234',));
+     *
+     * $curl->delete(
+            'https://httpbin.org/delete',
+            array(
+                'key' => 'value',
+            ),
+            array(
+                'a' => '1',
+                'b' => '2',
+                'c' => '3',
+            )
+        );
      */
     public function delete($url, $query_parameters = array(), $data = array())
     {
@@ -1213,6 +1262,15 @@ class Curl
      */
     /*
      * $curl->download('https://www.example.com/image.png', '/tmp/myimage.png');
+     *
+     * $curl->download('https://secure.php.net/images/logos/php-med-trans.png',
+     * function ($instance, $tmpfile) {
+    $save_to_path = '/tmp/' . basename($instance->url);
+    $fh = fopen($save_to_path, 'wb');
+    stream_copy_to_stream($tmpfile, $fh);
+    fclose($fh);
+});
+     *
      */
     public function download($url, $mixed_filename)
     {

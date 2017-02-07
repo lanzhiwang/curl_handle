@@ -57,6 +57,9 @@ class ArrayUtil
                 $return[$prefix] = '';
             } else {
                 foreach ($array as $key => $value) {
+                    /*
+                     * is_scalar — 检测变量是否是一个标量
+                     */
                     if (is_scalar($value)) {
                         if ($prefix) {
                             $return[$prefix . '[' . $key . ']'] = $value;
@@ -67,6 +70,9 @@ class ArrayUtil
                         if ($value instanceof \CURLFile) {
                             $return[$key] = $value;
                         } else {
+                            /*
+                             * array_merge — 合并一个或多个数组
+                             */
                             $return = array_merge(
                                 $return,
                                 self::array_flatten_multidim(
